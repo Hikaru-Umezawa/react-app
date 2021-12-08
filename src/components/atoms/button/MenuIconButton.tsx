@@ -1,4 +1,4 @@
-import { memo, VFC } from "react";
+import React,{ memo, VFC } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
 

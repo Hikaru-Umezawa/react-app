@@ -1,5 +1,5 @@
 /* eslint-disabled react-hooks/exhaustive-deps */
-import { memo, useCallback, useEffect, VFC } from "react";
+import React,{ memo, useCallback, useEffect, VFC } from "react";
 import {
   Center,
   Spinner,

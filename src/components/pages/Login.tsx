@@ -1,5 +1,5 @@
 import { Box, Divider, Flex, Heading, Input, Stack } from "@chakra-ui/react";
-import { ChangeEvent, memo, useState, VFC } from "react";
+import React,{ ChangeEvent, memo, useState, VFC } from "react";
 import { useAuth } from "../../hooks/useAuth";
 
 import { PrimaryButton } from "../atoms/button/PrimaryButton";

@@ -1,4 +1,4 @@
-import { memo, VFC } from "react";
+import React,{ memo, VFC } from "react";
 import { Route, Switch } from "react-router-dom";
 import { HeaderLayout } from "../components/templates/HeaderLayout";
 import { Login } from "../components/pages/Login";
