@@ -2,14 +2,15 @@ import { Box, Button, Divider, Flex, Heading, Input, InputGroup, InputRightEleme
 import React, { memo, useCallback, useState, VFC } from "react";
 import { useHistory } from "react-router-dom";
 import { ChangeEvent } from "react-router/node_modules/@types/react";
+import { useRegister } from "../../hooks/useRegister";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 
 export const Register: VFC = memo(() => {
-  const [mail, setMail] = useState("");
+  const [mail, setMail] = useState<string>("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false)
-
   const history = useHistory();
+  const { loading, register } = useRegister();
   const handleClick = () => setShow(!show)
   const onChangeMail = (e: ChangeEvent<HTMLInputElement>) => {
     setMail(e.target.value);
@@ -23,7 +24,9 @@ export const Register: VFC = memo(() => {
     },
     [history],
   )
-  const onClickRegister = () => alert(`メール:${mail} パスワード${password}`);
+
+  const onClickRegister = () => register(mail, password);
+
   return (
     <>
       <Flex align="center" justify="center" height="100vh">
@@ -53,6 +56,8 @@ export const Register: VFC = memo(() => {
               </InputRightElement>
             </InputGroup>
             <PrimaryButton
+              loading={loading}
+              disabled={mail === "" || password === ""}
               onClick={onClickRegister}
             >
               新規登録
