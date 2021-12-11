@@ -1,23 +1,17 @@
-import { Box, Button, Divider, Flex, Heading, Input, InputGroup, InputRightElement, Link, Stack } from "@chakra-ui/react";
-import React, { memo, useCallback, useState, VFC } from "react";
+import { Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, Stack } from "@chakra-ui/react";
+import { memo, useCallback, useState, VFC } from "react";
 import { useHistory } from "react-router-dom";
-import { ChangeEvent } from "react-router/node_modules/@types/react";
 import { useRegister } from "../../hooks/useRegister";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
+import { useForm } from "react-hook-form";
 
 export const Register: VFC = memo(() => {
-  const [mail, setMail] = useState<string>("");
-  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false)
   const history = useHistory();
-  const { loading, register } = useRegister();
+  const { signUp } = useRegister();
+  const { handleSubmit, register, formState: { errors, isSubmitting, isValid } } = useForm({ mode: "all" });
   const handleClick = () => setShow(!show)
-  const onChangeMail = (e: ChangeEvent<HTMLInputElement>) => {
-    setMail(e.target.value);
-  }
-  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  }
+
   const onClickLoginLink = useCallback(
     () => {
       history.push("/");
@@ -25,7 +19,15 @@ export const Register: VFC = memo(() => {
     [history],
   )
 
-  const onClickRegister = () => register(mail, password);
+  type data = {
+    email: string;
+    password: string;
+  }
+
+  const onSubmit = (data: data) => {
+    signUp(data.email, data.password)
+  };
+  ;
 
   return (
     <>
@@ -35,35 +37,58 @@ export const Register: VFC = memo(() => {
             新規登録
           </Heading>
           <Divider my={4} />
-          <Stack spacing={6} py={4} px={10}>
-            <Input
-              type="mail"
-              placeholder="メールアドレス"
-              value={mail}
-              onChange={onChangeMail}
-            />
-            <InputGroup>
-              <Input
-                type={show ? "text" : "password"}
-                placeholder="パスワード"
-                value={password}
-                onChange={onChangePassword}
-              />
-              <InputRightElement>
-                <Button h='1.75rem' size='sm' onClick={handleClick}>
-                  {show ? '隠す' : '確認'}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-            <PrimaryButton
-              loading={loading}
-              disabled={mail === "" || password === ""}
-              onClick={onClickRegister}
-            >
-              新規登録
-            </PrimaryButton>
-            <Link textAlign="center" color="blue.300" onClick={onClickLoginLink}>ログインはこちら</Link>
-          </Stack>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={6} py={4} px={10}>
+              <FormControl isInvalid={errors.email}>
+                <FormLabel>メールアドレス</FormLabel>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="メールアドレス"
+                  {...register("email", {
+                    required: "メールアドレスは必須です。",
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: "メールアドレス形式で入力してください。",
+                    },
+                  })}
+                />
+                <FormErrorMessage>
+                  {errors.email && errors.email.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={errors.password}>
+                <FormLabel>パスワード</FormLabel>
+                <InputGroup>
+                  <Input
+                    id="password"
+                    type={show ? "text" : "password"}
+                    placeholder="パスワード"
+                    {...register("password", {
+                      required: "パスワードは必須です。",
+                      minLength: { value: 6, message: "パスワードが短すぎます。6文字以上で入力してください。" }
+                    })}
+                  />
+                  <InputRightElement>
+                    <Button h='1.75rem' size='sm' onClick={handleClick}>
+                      {show ? '隠す' : '確認'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                <FormErrorMessage>
+                  {errors.password && errors.password.message}
+                </FormErrorMessage>
+              </FormControl>
+              <PrimaryButton
+                type="submit"
+                disabled={!isValid}
+                loading={isSubmitting}
+              >
+                新規登録
+              </PrimaryButton>
+              <Link textAlign="center" color="blue.300" onClick={onClickLoginLink}>ログインはこちら</Link>
+            </Stack>
+          </form>
         </Box>
       </Flex>
     </>

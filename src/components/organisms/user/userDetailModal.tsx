@@ -1,4 +1,4 @@
-import React,{ ChangeEvent, memo, useEffect, useState, VFC } from "react";
+import React, { ChangeEvent, memo, useEffect, useState, VFC } from "react";
 import {
   FormControl,
   FormLabel,
@@ -94,7 +94,7 @@ export const UserDetailModal: VFC<Props> = memo((props) => {
           </ModalBody>
           {isAdmin && (
             <ModalFooter>
-              <PrimaryButton onClick={onClickUpdate}>更新</PrimaryButton>
+              <PrimaryButton type="button" onClick={onClickUpdate}>更新</PrimaryButton>
             </ModalFooter>
           )}
         </ModalContent>
