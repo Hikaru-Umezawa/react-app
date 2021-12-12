@@ -1,10 +1,11 @@
-import axios from "axios";
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { User } from "../types/api/user";
 import { useMessage } from "./useMessage";
 import { useLoginUser } from "./useLoginUser";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { auth } from "../firebase";
 
 export const useAuth = () => {
   const history = useHistory();
@@ -13,27 +14,24 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(false);
 
   const login = useCallback(
-    (id: string) => {
+    (email: string, password: string) => {
       setLoading(true);
-      axios
-        .get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
-        .then((res) => {
-          if (res.data) {
-            const isAdmin = res.data.id === 10 ? true : false;
-            setLoginUser({ ...res.data, isAdmin });
-            showMessage({ title: "ログインしました", status: "success" });
+      signInWithEmailAndPassword(auth, email, password)
+        .catch(() => {
+          showMessage({ title: "ログインに失敗しました。", status: "error" });
+        })
+        .then((user) => {
+          if (user) {
+            showMessage({ title: "ログインに成功しました。", status: "success" });
             history.push("/home");
-          } else {
-            showMessage({ title: "ユーザーが見つかりません", status: "error" });
-            setLoading(false);
+            console.log(user);
           }
         })
-        .catch(() => {
-          showMessage({ title: "ログインできません", status: "error" });
+        .finally(() => {
           setLoading(false);
-        });
+        })
     },
-    [history, showMessage, setLoginUser]
+    [history, showMessage]
   );
   return { loading, login };
 };
