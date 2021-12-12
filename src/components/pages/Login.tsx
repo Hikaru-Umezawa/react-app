@@ -1,5 +1,14 @@
-import { Box, Divider, Flex, Heading, Input, Stack } from "@chakra-ui/react";
-import React,{ ChangeEvent, memo, useState, VFC } from "react";
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Input,
+  Link,
+  Stack,
+} from "@chakra-ui/react";
+import React, { ChangeEvent, memo, useCallback, useState, VFC } from "react";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
@@ -7,9 +16,14 @@ import { PrimaryButton } from "../atoms/button/PrimaryButton";
 export const Login: VFC = memo(() => {
   const [userId, setUserId] = useState("");
   const { login, loading } = useAuth();
+  const history = useHistory();
+
   const onChangeUserId = (e: ChangeEvent<HTMLInputElement>) =>
     setUserId(e.target.value);
   const onClickLogin = () => login(userId);
+  const onClickRegisterLink = useCallback(() => {
+    history.push("/register");
+  }, [history]);
   return (
     <Flex align="center" justify="center" height="100vh">
       <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
@@ -30,6 +44,7 @@ export const Login: VFC = memo(() => {
           >
             ログイン
           </PrimaryButton>
+          <Link textAlign="center" color="blue.300" onClick={onClickRegisterLink}>新規登録はこちら</Link>
         </Stack>
       </Box>
     </Flex>
