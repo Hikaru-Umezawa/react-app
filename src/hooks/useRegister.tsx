@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { firebase } from "../firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 
 import { useMessage } from "./useMessage";
 
 export const useRegister = () => {
-  const auth = getAuth(firebase);
   const history = useHistory();
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(false);
