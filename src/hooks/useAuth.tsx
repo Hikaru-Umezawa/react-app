@@ -1,5 +1,5 @@
 import axios from "axios";
-import React,{ useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { User } from "../types/api/user";
