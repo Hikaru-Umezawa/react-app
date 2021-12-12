@@ -14,8 +14,9 @@ export const useRegister = () => {
 
 
   const signUp =
-    (mail: string, password: string) => {
-      createUserWithEmailAndPassword(auth, mail, password)
+    (email: string, password: string) => {
+      setLoading(true);
+      createUserWithEmailAndPassword(auth, email, password)
         .catch((e) => {
           switch (e.code) {
             case "auth/network-request-failed":

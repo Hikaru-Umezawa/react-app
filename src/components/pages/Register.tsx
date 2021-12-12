@@ -10,7 +10,7 @@ export const Register: VFC = memo(() => {
   const history = useHistory();
   const { signUp } = useRegister();
   const { handleSubmit, register, formState: { errors, isSubmitting, isValid } } = useForm({ mode: "all" });
-  const handleClick = () => setShow(!show)
+  const handleClickShow = () => setShow(!show)
 
   const onClickLoginLink = useCallback(
     () => {
@@ -70,7 +70,7 @@ export const Register: VFC = memo(() => {
                     })}
                   />
                   <InputRightElement>
-                    <Button h='1.75rem' size='sm' onClick={handleClick}>
+                    <Button h='1.75rem' size='sm' onClick={handleClickShow}>
                       {show ? '隠す' : '確認'}
                     </Button>
                   </InputRightElement>
