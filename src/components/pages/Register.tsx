@@ -1,9 +1,10 @@
 import { Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightElement, Link, Stack } from "@chakra-ui/react";
-import { memo, useCallback, useState, VFC } from "react";
+import { memo, useCallback, useEffect, useState, VFC } from "react";
 import { useHistory } from "react-router-dom";
 import { useRegister } from "../../hooks/useRegister";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useForm } from "react-hook-form";
+import { auth } from "../../firebase";
 
 export const Register: VFC = memo(() => {
   const [show, setShow] = useState(false)
@@ -27,7 +28,12 @@ export const Register: VFC = memo(() => {
   const onSubmit = (data: data) => {
     signUp(data.email, data.password)
   };
-  ;
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      user && history.push("/home");
+    });
+  }, [history]);
 
   return (
     <>

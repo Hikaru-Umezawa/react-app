@@ -1,4 +1,4 @@
-import React,{ memo, VFC } from "react";
+import React, { memo, VFC } from "react";
 import {
   Button,
   Drawer,
@@ -13,6 +13,7 @@ type Props = {
   onClickHome: () => void;
   onClickUserManagement: () => void;
   onClickSetting: () => void;
+  onClickLogout: () => void;
 };
 
 export const MenuDrawer: VFC<Props> = memo((props) => {
@@ -21,7 +22,8 @@ export const MenuDrawer: VFC<Props> = memo((props) => {
     isOpen,
     onClickHome,
     onClickUserManagement,
-    onClickSetting
+    onClickSetting,
+    onClickLogout
   } = props;
   return (
     <Drawer placement="left" size="xs" onClose={onClose} isOpen={isOpen}>
@@ -36,6 +38,9 @@ export const MenuDrawer: VFC<Props> = memo((props) => {
             </Button>
             <Button w="100%" onClick={onClickSetting}>
               設定
+            </Button>
+            <Button w="100%" onClick={onClickLogout}>
+              ログアウト
             </Button>
           </DrawerBody>
         </DrawerContent>

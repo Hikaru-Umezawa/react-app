@@ -1,16 +1,13 @@
 import { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { User } from "../types/api/user";
 import { useMessage } from "./useMessage";
-import { useLoginUser } from "./useLoginUser";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../firebase";
 
 export const useAuth = () => {
   const history = useHistory();
   const { showMessage } = useMessage();
-  const { setLoginUser } = useLoginUser();
   const [loading, setLoading] = useState(false);
 
   const login = useCallback(
@@ -24,7 +21,6 @@ export const useAuth = () => {
           if (user) {
             showMessage({ title: "ログインに成功しました。", status: "success" });
             history.push("/home");
-            console.log(user);
           }
         })
         .finally(() => {
