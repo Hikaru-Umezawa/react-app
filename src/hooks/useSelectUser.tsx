@@ -1,16 +1,16 @@
+import { DocumentData } from "@firebase/firestore";
 import { useCallback, useState } from "react";
 
-import { User } from "../types/api/user";
 
 type Props = {
   id: number;
-  users: Array<User>;
+  users: Array<DocumentData>;
   onOpen: () => void;
 };
 
 //選択したユーザー情報を特定し、モーダルを開くカスタムフック
 export const useSelectUser = () => {
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<DocumentData | null>(null);
 
   const onSelectUser = useCallback((props: Props) => {
     const { id, users, onOpen } = props;

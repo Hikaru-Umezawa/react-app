@@ -13,18 +13,18 @@ import {
   Stack
 } from "@chakra-ui/react";
 
-import { User } from "../../../types/api/user";
 import { PrimaryButton } from "../../atoms/button/PrimaryButton";
+import { DocumentData } from "@firebase/firestore";
 
 type Props = {
   isOpen: boolean;
-  isAdmin?: boolean;
-  user: User | null;
+  //isAdmin?: boolean;
+  user: DocumentData | null;
   onClose: () => void;
 };
 
 export const UserDetailModal: VFC<Props> = memo((props) => {
-  const { isOpen, onClose, user, isAdmin = false } = props;
+  const { isOpen, onClose, user, } = props;
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -69,34 +69,32 @@ export const UserDetailModal: VFC<Props> = memo((props) => {
                 <Input
                   value={name}
                   onChange={onChangeName}
-                  isReadOnly={!isAdmin}
+                //isReadOnly={!isAdmin}
                 />
                 <FormLabel>フルネーム</FormLabel>
                 <Input
                   value={username}
                   onChange={onChangeUsername}
-                  isReadOnly={!isAdmin}
+                //isReadOnly={!isAdmin}
                 />
                 <FormLabel>Mail</FormLabel>
                 <Input
                   value={email}
                   onChange={onChangeEmail}
-                  isReadOnly={!isAdmin}
+                //isReadOnly={!isAdmin}
                 />
                 <FormLabel>TEL</FormLabel>
                 <Input
                   value={phone}
                   onChange={onChangePhone}
-                  isReadOnly={!isAdmin}
+                //isReadOnly={!isAdmin}
                 />
               </FormControl>
             </Stack>
           </ModalBody>
-          {isAdmin && (
-            <ModalFooter>
-              <PrimaryButton type="button" onClick={onClickUpdate}>更新</PrimaryButton>
-            </ModalFooter>
-          )}
+          <ModalFooter>
+            <PrimaryButton type="button" onClick={onClickUpdate}>更新</PrimaryButton>
+          </ModalFooter>
         </ModalContent>
       </ModalOverlay>
     </Modal>

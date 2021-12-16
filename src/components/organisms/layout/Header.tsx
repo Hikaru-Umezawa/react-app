@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
-import React, { memo, useCallback, VFC } from "react";
+import { memo, useCallback, VFC } from "react";
 import { useHistory } from "react-router-dom";
 import { auth } from "../../../firebase";
 import { useMessage } from "../../../hooks/useMessage";

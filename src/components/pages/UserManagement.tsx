@@ -1,5 +1,5 @@
 /* eslint-disabled react-hooks/exhaustive-deps */
-import React,{ memo, useCallback, useEffect, VFC } from "react";
+import React, { memo, useCallback, useEffect, VFC } from "react";
 import {
   Center,
   Spinner,
@@ -43,7 +43,6 @@ export const UserManagement: VFC = memo(() => {
               <UserCard
                 imageUrl="https://source.unsplash.com/random"
                 id={user.id}
-                userName={user.username}
                 fullName={user.name}
                 onClick={onClickUser}
               ></UserCard>
@@ -54,7 +53,7 @@ export const UserManagement: VFC = memo(() => {
       <UserDetailModal
         user={selectedUser}
         isOpen={isOpen}
-        isAdmin={loginUser?.isAdmin}
+        //isAdmin={loginUser?.isAdmin}
         onClose={onClose}
       />
     </>
