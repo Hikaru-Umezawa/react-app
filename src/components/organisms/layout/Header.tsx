@@ -1,6 +1,8 @@
 import { Box, Flex, Heading, Link, useDisclosure } from "@chakra-ui/react";
 import React, { memo, useCallback, VFC } from "react";
 import { useHistory } from "react-router-dom";
+import { auth } from "../../../firebase";
+import { useMessage } from "../../../hooks/useMessage";
 
 import { MenuIconButton } from "../../atoms/button/MenuIconButton";
 import { MenuDrawer } from "../../molecules/MenuDrawer";
@@ -8,6 +10,8 @@ import { MenuDrawer } from "../../molecules/MenuDrawer";
 export const Header: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useHistory();
+  const { showMessage } = useMessage();
+
 
   const onClickHome = useCallback(() => history.push("/home"), [history]);
   const onClickUserManagement = useCallback(
@@ -17,6 +21,15 @@ export const Header: VFC = memo(() => {
   const onClickSetting = useCallback(() => history.push("/home/setting"), [
     history
   ]);
+
+  const onClickLogout = async () => {
+    await auth.signOut().catch(() => {
+      showMessage({ title: "ログアウトに失敗しました", status: "error" })
+    }).then(() => {
+      showMessage({ title: "ログアウトしました。", status: "success" })
+      history.push("/");
+    });
+  }
 
   return (
     <>
@@ -50,6 +63,7 @@ export const Header: VFC = memo(() => {
           </Box>
           <Link onClick={onClickSetting}>設定</Link>
         </Flex>
+        <Link display={{ base: "none", md: "inline" }} textAlign="right" onClick={onClickLogout}>ログアウト</Link>
         <MenuIconButton onOpen={onOpen} />
       </Flex>
       <MenuDrawer
@@ -58,6 +72,7 @@ export const Header: VFC = memo(() => {
         onClickHome={onClickHome}
         onClickUserManagement={onClickUserManagement}
         onClickSetting={onClickSetting}
+        onClickLogout={onClickLogout}
       />
     </>
   );

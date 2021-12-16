@@ -13,9 +13,10 @@ import {
   Link,
   Stack,
 } from "@chakra-ui/react";
-import React, { ChangeEvent, memo, useCallback, useState, VFC } from "react";
+import React, { memo, useCallback, useEffect, useState, VFC } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { auth } from "../../firebase";
 import { useAuth } from "../../hooks/useAuth";
 
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
@@ -39,6 +40,13 @@ export const Login: VFC = memo(() => {
   const onSubmit = (data: data) => {
     login(data.email, data.password);
   }
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      user && history.push("/home");
+    });
+  }, [history]);
+
   return (
     <Flex align="center" justify="center" height="100vh">
       <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
